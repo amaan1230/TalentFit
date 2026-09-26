@@ -162,7 +162,7 @@ python -m pytest tests/
    - `OPENAI_API_KEY`: `<your_openai_api_key>`
    - `GEMINI_API_KEY`: `<your_gemini_api_key>`
    - `ALLOWED_ORIGINS`: `*`
-5. Deploy and copy your backend live URL (e.g. `https://talentfit-backend.onrender.com`).
+5. Deploy and copy your backend live URL: `https://talentfit-zwkw.onrender.com`.
 
 ---
 
@@ -173,6 +173,6 @@ python -m pytest tests/
    - **Framework Preset**: `Next.js`
    - **Root Directory**: Select `frontend`
 4. Add **Environment Variables**:
-   - `NEXT_API_URL` (or `NEXT_PUBLIC_API_URL`): `https://talentfit-backend.onrender.com/api` (replace with your Render backend URL)
+   - `NEXT_API_URL` (or `NEXT_PUBLIC_API_URL`): `https://talentfit-zwkw.onrender.com/api`
 5. Click **Deploy**.
 
