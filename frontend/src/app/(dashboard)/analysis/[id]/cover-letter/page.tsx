@@ -92,7 +92,7 @@ export default function CoverLetterPage() {
 
   const downloadFile = async (docType: 'cover_letter_pdf' | 'cover_letter_docx') => {
     const token = localStorage.getItem('talentfit_token');
-    const API_URL = process.env.NEXT_API_URL || process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api';
+    const API_URL = process.env.NEXT_PUBLIC_API_URL || process.env.NEXT_API_URL || 'http://localhost:8000/api';
     setDownloading(docType);
     try {
       const res = await fetch(`${API_URL}/documents/download/${docType}/${id}`, {
