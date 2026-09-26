@@ -29,7 +29,7 @@ class Settings(BaseSettings):
     GEMINI_MODEL: str = "gemini-2.5-flash"
 
     # CORS — plain string in .env (comma-separated), use allowed_origins_list property
-    ALLOWED_ORIGINS: str = "http://localhost:3000,http://127.0.0.1:3000"
+    ALLOWED_ORIGINS: str = "*"
 
     # Storage
     UPLOAD_DIR: str = "uploads"
@@ -48,7 +48,10 @@ class Settings(BaseSettings):
     @property
     def allowed_origins_list(self) -> List[str]:
         """Parse comma-separated ALLOWED_ORIGINS string into a Python list."""
-        return [o.strip() for o in self.ALLOWED_ORIGINS.split(",") if o.strip()]
+        origins = [o.strip() for o in self.ALLOWED_ORIGINS.split(",") if o.strip()]
+        if "*" in origins or not origins:
+            return ["*"]
+        return origins
 
 
 settings = Settings()
