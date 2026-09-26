@@ -42,7 +42,7 @@ export default function ResumesPage() {
 
     try {
       const token = localStorage.getItem('talentfit_token');
-      const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api';
+      const API_URL = process.env.NEXT_API_URL || process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api';
       const res = await fetch(`${API_URL}/resumes/upload`, {
         method: 'POST',
         headers: { Authorization: `Bearer ${token}` },

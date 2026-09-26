@@ -25,7 +25,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     if (savedToken) {
       setToken(savedToken);
       // Pass token explicitly to avoid race condition with localStorage read timing
-      fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api'}/auth/me`, {
+      fetch(`${process.env.NEXT_API_URL || process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api'}/auth/me`, {
         headers: { Authorization: `Bearer ${savedToken}` },
       })
         .then(async (res) => {

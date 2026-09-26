@@ -173,6 +173,6 @@ python -m pytest tests/
    - **Framework Preset**: `Next.js`
    - **Root Directory**: Select `frontend`
 4. Add **Environment Variables**:
-   - `NEXT_PUBLIC_API_URL`: `https://talentfit-backend.onrender.com/api` (replace with your Render backend URL)
+   - `NEXT_API_URL` (or `NEXT_PUBLIC_API_URL`): `https://talentfit-backend.onrender.com/api` (replace with your Render backend URL)
 5. Click **Deploy**.
 
