@@ -142,3 +142,37 @@ python -m pytest tests/
 **TalentFit AI** strictly enforces evidence verification:
 - If a candidate resume lists `Python` and `FastAPI`, but the job requires `Python`, `FastAPI`, and `AWS`, `AWS` is classified as **MISSING** with `evidence: null`.
 - `AWS` will **NEVER** appear in optimized skills or resume bullet points unless the candidate uploads a new resume containing factual evidence of `AWS` usage.
+
+---
+
+## 🌐 Production Deployment Guide
+
+### 1. Backend Deployment (Render)
+1. Log in to [Render](https://render.com) and click **New +** ➔ **Web Service**.
+2. Connect your GitHub repository: `https://github.com/amaan1230/TalentFit`.
+3. Set the build configuration:
+   - **Root Directory**: `backend`
+   - **Runtime**: `Python 3`
+   - **Build Command**: `pip install -r requirements.txt`
+   - **Start Command**: `uvicorn app.main:app --host 0.0.0.0 --port $PORT`
+4. Add **Environment Variables**:
+   - `MONGODB_URL`: `mongodb+srv://<username>:<password>@cluster0.xxx.mongodb.net/cvcover_db?retryWrites=true&w=majority`
+   - `MONGODB_DB_NAME`: `cvcover_db`
+   - `SECRET_KEY`: `<generate_random_secret>`
+   - `OPENAI_API_KEY`: `<your_openai_api_key>`
+   - `GEMINI_API_KEY`: `<your_gemini_api_key>`
+   - `ALLOWED_ORIGINS`: `*`
+5. Deploy and copy your backend live URL (e.g. `https://talentfit-backend.onrender.com`).
+
+---
+
+### 2. Frontend Deployment (Vercel)
+1. Log in to [Vercel](https://vercel.com) and click **Add New...** ➔ **Project**.
+2. Import `https://github.com/amaan1230/TalentFit`.
+3. Configure project settings:
+   - **Framework Preset**: `Next.js`
+   - **Root Directory**: Select `frontend`
+4. Add **Environment Variables**:
+   - `NEXT_PUBLIC_API_URL`: `https://talentfit-backend.onrender.com/api` (replace with your Render backend URL)
+5. Click **Deploy**.
+
