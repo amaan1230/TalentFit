@@ -1,4 +1,4 @@
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api';
+const API_URL = process.env.NEXT_API_URL || 'http://localhost:8000/api';
 
 export function getAuthHeader(): Record<string, string> {
   if (typeof window === 'undefined') return {};
@@ -32,7 +32,7 @@ export async function apiFetch<T>(endpoint: string, options: RequestInit = {}): 
       if (errData.detail) {
         errorDetail = typeof errData.detail === 'string' ? errData.detail : JSON.stringify(errData.detail);
       }
-    } catch (_) {}
+    } catch (_) { }
     throw new Error(errorDetail);
   }
 
