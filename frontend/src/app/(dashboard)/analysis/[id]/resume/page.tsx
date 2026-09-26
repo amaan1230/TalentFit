@@ -121,7 +121,7 @@ export default function ResumeOptimizationPage() {
 
   const downloadFile = async (docType: 'resume_pdf' | 'resume_docx') => {
     const token = localStorage.getItem('talentfit_token');
-    const API_URL = process.env.NEXT_PUBLIC_API_URL || process.env.NEXT_API_URL || 'http://localhost:8000/api';
+    const API_URL = process.env.NEXT_PUBLIC_API_URL || process.env.NEXT_API_URL || 'https://talentfit-zwkw.onrender.com/api';
     setDownloading(docType);
     try {
       const res = await fetch(`${API_URL}/documents/download/${docType}/${id}`, {
