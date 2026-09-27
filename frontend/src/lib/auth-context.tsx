@@ -25,7 +25,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     if (savedToken) {
       setToken(savedToken);
       // Pass token explicitly to avoid race condition with localStorage read timing
-      fetch(`${process.env.NEXT_PUBLIC_API_URL || process.env.NEXT_API_URL || 'https://talentfit-zwkw.onrender.com/api'}/auth/me`, {
+      fetch(`${process.env.NEXT_PUBLIC_API_URL || process.env.NEXT_API_URL || 'https://talentfit-ptbk.onrender.com/api'}/auth/me`, {
         headers: { Authorization: `Bearer ${savedToken}` },
       })
         .then(async (res) => {

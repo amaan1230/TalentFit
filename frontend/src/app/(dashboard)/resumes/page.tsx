@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { apiFetch } from '@/lib/api-client';
+import { apiFetch, getAuthHeader } from '@/lib/api-client';
 import { Resume } from '@/types';
 import { Upload, FileText, CheckCircle2, Trash2, Star, AlertCircle, ChevronRight, User, Briefcase, GraduationCap, Code } from 'lucide-react';
 
@@ -41,11 +41,10 @@ export default function ResumesPage() {
     formData.append('set_default', resumes.length === 0 ? 'true' : 'false');
 
     try {
-      const token = localStorage.getItem('talentfit_token');
-      const API_URL = process.env.NEXT_PUBLIC_API_URL || process.env.NEXT_API_URL || 'https://talentfit-zwkw.onrender.com/api';
+      const API_URL = process.env.NEXT_PUBLIC_API_URL || process.env.NEXT_API_URL || 'https://talentfit-ptbk.onrender.com/api';
       const res = await fetch(`${API_URL}/resumes/upload`, {
         method: 'POST',
-        headers: { Authorization: `Bearer ${token}` },
+        headers: getAuthHeader(),
         body: formData
       });
 
