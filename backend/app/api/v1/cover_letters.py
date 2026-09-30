@@ -41,7 +41,8 @@ async def generate_cover_letter_endpoint(
         job=struct_job,
         matched_skills=analysis["matched_skills"],
         custom_notes=req.custom_notes,
-        ai_provider=ai_provider
+        ai_provider=ai_provider,
+        fallback_name=current_user.get("name")
     )
 
     cl_id = str(uuid.uuid4())

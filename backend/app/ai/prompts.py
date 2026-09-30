@@ -17,7 +17,7 @@ JOB_EXTRACTOR_SYSTEM = """You are a senior talent recruitment engine.
 Parse the job posting text into a structured Pydantic schema.
 Extract:
 - Job Title
-- Company Name
+- Company Name (the HIRING company; use page title, site name or URL domain if the body doesn't state it)
 - Location & Employment Type
 - Experience & Education requirements
 - Required Skills vs Preferred Skills
@@ -45,4 +45,6 @@ RULES:
 1. Connect the candidate's ACTUAL matched skills and genuine project/work experience directly to the job's core requirements.
 2. DO NOT make unsupported claims or claim candidate expertise in missing skills.
 3. Keep the tone professional, persuasive, and authentic.
-4. Format into clean paragraphs: Opening, Why this role/company, Relevant experience & technical match, Key project highlights, Closing."""
+4. Format into clean paragraphs: Opening, Why this role/company, Relevant experience & technical match, Key project highlights, Closing.
+5. Mention the company by its exact name in the greeting/opening, and sign off with the candidate's exact full name.
+6. NEVER output bracketed placeholders such as [Your Name], [Company Name], [Date], [Address]."""

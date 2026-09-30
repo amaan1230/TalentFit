@@ -39,7 +39,12 @@ async def fetch_job_url(url: str) -> str:
             clean_text = clean_html_content(resp.text)
             if len(clean_text) < 50:
                 raise ValueError("Extracted text is too short or blocked.")
-            return clean_text
+            # Company name usually lives in <title>/og:site_name, which clean_html_content strips.
+            soup = BeautifulSoup(resp.text, "html.parser")
+            site = soup.find("meta", property="og:site_name")
+            hints = [f"Source URL: {url}", f"Page title: {soup.title.get_text(strip=True) if soup.title else ''}",
+                     f"Site name: {site.get('content', '') if site else ''}"]
+            return "\n".join(hints) + "\n\n" + clean_text
     except Exception as e:
         logger.warning(f"Failed to fetch job URL ({url}): {e}")
         raise ValueError("We couldn't automatically read this job posting. Anti-bot protections or paywalls may be blocking access.")

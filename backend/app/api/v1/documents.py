@@ -92,7 +92,7 @@ async def download_document(
         resume_obj = await db.resumes.find_one({"_id": analysis["resume_id"]})
         if not resume_obj:
             resume_obj = await db.resumes.find_one({"id": analysis["resume_id"]})
-        cand_name = resume_obj["parsed_json"].get("name") if resume_obj else "Candidate"
+        cand_name = (resume_obj["parsed_json"].get("name") if resume_obj else "") or current_user.get("name") or "Candidate"
 
         if doc_type == "cover_letter_pdf":
             filepath = generate_cover_letter_pdf(cl_obj["content"], cand_name=cand_name)
