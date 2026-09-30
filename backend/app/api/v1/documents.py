@@ -1,5 +1,6 @@
 import os
 import uuid
+import logging
 from datetime import datetime, timezone
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.responses import FileResponse
@@ -12,10 +13,12 @@ from app.services.document_generator import (
     generate_cover_letter_pdf,
     generate_cover_letter_docx
 )
-from app.services.optimizer import apply_suggestions_to_resume
+from app.services.optimizer import apply_suggestions_to_resume, clean_optimized_text
+from app.services.template_filler import fill_original_template
 from app.schemas.optimization import SuggestionItem
 
 router = APIRouter()
+logger = logging.getLogger(__name__)
 
 @router.get("/download/{doc_type}/{analysis_id}")
 async def download_document(
@@ -61,12 +64,19 @@ async def download_document(
 
         final_resume = apply_suggestions_to_resume(orig_structured, sug_items, accepted_ids)
 
-        if doc_type == "resume_pdf":
-            filepath = generate_resume_pdf(final_resume)
-            download_filename = f"Optimized_Resume_{final_resume.name or 'Candidate'}.pdf".replace(" ", "_")
-        else:
-            filepath = generate_resume_docx(final_resume)
-            download_filename = f"Optimized_Resume_{final_resume.name or 'Candidate'}.docx".replace(" ", "_")
+        # Prefer editing the user's own uploaded file so the download keeps their template.
+        ext = ".pdf" if doc_type == "resume_pdf" else ".docx"
+        pairs = [(s.before_text, clean_optimized_text(s.after_text)) for s in sug_items
+                 if s.section == "summary" or s.section.startswith(("experience:", "project:"))]
+        new_skills = [clean_optimized_text(s.after_text) for s in sug_items if s.section.startswith("skills")]
+        try:
+            filepath = fill_original_template(resume_obj.get("file_path"), ext, pairs, orig_structured.skills, new_skills) or ""
+        except Exception as e:
+            logger.warning(f"Template fill failed, using generated layout: {e}")
+            filepath = ""
+        if not filepath:
+            filepath = (generate_resume_pdf if ext == ".pdf" else generate_resume_docx)(final_resume)
+        download_filename = f"Optimized_Resume_{final_resume.name or 'Candidate'}{ext}".replace(" ", "_")
 
     elif doc_type.startswith("cover_letter"):
         an_id_val = analysis.get("id") or str(analysis.get("_id"))
